@@ -12,10 +12,10 @@ export function ProjectCard({ project, index, onInspect }: ProjectCardProps) {
 
   return (
     <article
-      className="surface-card group flex flex-col justify-between rounded-lg p-6"
+      className="surface-card group flex min-w-0 flex-col justify-between overflow-hidden rounded-lg p-6"
       style={{ backgroundColor: 'var(--bg-surface)' }}
     >
-      <div>
+      <div className="min-w-0">
         <div className="flex items-start justify-between gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <span

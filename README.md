@@ -2,6 +2,8 @@
 
 Static editorial engineering portfolio for **Tom Nunan** (Information Technology graduate, RMIT University, Melbourne), presenting case studies across AI systems, workflow automation, data analytics, business intelligence, and full-stack TypeScript engineering.
 
+![Tom Nunan Engineering Portfolio](./docs/screenshot-desktop.png)
+
 ## Architecture Overview
 
 - **Framework & Tooling**: React 19, TypeScript (strict mode), Vite 6, Tailwind CSS v4, and Lucide icons.
