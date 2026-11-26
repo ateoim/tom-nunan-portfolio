@@ -13,11 +13,13 @@ import {
 } from '../portfolio';
 
 describe('Portfolio catalog integrity', () => {
-  it('contains all 6 expected portfolio projects with unique IDs', () => {
-    expect(PROJECTS).toHaveLength(6);
+  it('contains all 8 expected portfolio projects with unique IDs', () => {
+    expect(PROJECTS).toHaveLength(8);
     const ids = PROJECTS.map((project) => project.id);
     expect(new Set(ids).size).toBe(PROJECTS.length);
     expect(ids).toEqual([
+      'signal-intelligence',
+      'modelscope-intel',
       'docintel-rag',
       'au-tech-market-intel',
       'flowforge-ai-studio',
@@ -41,25 +43,31 @@ describe('Portfolio catalog integrity', () => {
     }
   });
 
-  it('validates all repository and demo URLs use HTTPS and belong to ateoim', () => {
+  it('validates all repository and demo URLs use HTTPS and belong to ateoim or Netlify demos', () => {
     const githubRepoPattern = /^https:\/\/github\.com\/ateoim\/[A-Za-z0-9._-]+$/;
-    const demoUrlPattern = /^https:\/\/ateoim\.github\.io\/[A-Za-z0-9._-]+\/?$/;
+    const demoUrlPattern = /^https:\/\/(ateoim\.github\.io\/[A-Za-z0-9._-]+\/?|tom-(signal|modelscope)-demo\.netlify\.app\/?)$/;
 
     expect(PROFILE.githubUrl).toBe('https://github.com/ateoim');
 
     for (const project of PROJECTS) {
-      expect(project.repoUrl).toMatch(githubRepoPattern);
+      if (project.repoUrl !== undefined) {
+        expect(project.repoUrl).toMatch(githubRepoPattern);
+      } else {
+        expect(project.isPrivateRepo).toBe(true);
+      }
       if (project.demoUrl !== undefined) {
         expect(project.demoUrl).toMatch(demoUrlPattern);
       }
     }
   });
 
-  it('includes live demo URLs for the five deployed projects and omits it for Autogate', () => {
+  it('includes live demo URLs for the seven deployed projects and omits it for Autogate', () => {
     const autogate = getProjectById(PROJECTS, 'autogate');
     expect(autogate?.demoUrl).toBeUndefined();
 
     const deployedIds = [
+      'signal-intelligence',
+      'modelscope-intel',
       'docintel-rag',
       'au-tech-market-intel',
       'flowforge-ai-studio',
@@ -91,6 +99,8 @@ describe('Category filtering and lookup helpers', () => {
   it('filters AI & RAG projects accurately', () => {
     const filtered = filterProjectsByCategory(PROJECTS, 'AI & RAG');
     expect(filtered.map((p) => p.id)).toEqual([
+      'signal-intelligence',
+      'modelscope-intel',
       'docintel-rag',
       'flowforge-ai-studio',
       'character-planner',
@@ -100,6 +110,7 @@ describe('Category filtering and lookup helpers', () => {
   it('filters Data & BI projects accurately', () => {
     const filtered = filterProjectsByCategory(PROJECTS, 'Data & BI');
     expect(filtered.map((p) => p.id)).toEqual([
+      'modelscope-intel',
       'au-tech-market-intel',
       'meridian-bi-platform',
     ]);
@@ -107,12 +118,17 @@ describe('Category filtering and lookup helpers', () => {
 
   it('filters Automation projects accurately', () => {
     const filtered = filterProjectsByCategory(PROJECTS, 'Automation');
-    expect(filtered.map((p) => p.id)).toEqual(['flowforge-ai-studio']);
+    expect(filtered.map((p) => p.id)).toEqual([
+      'signal-intelligence',
+      'flowforge-ai-studio',
+    ]);
   });
 
   it('filters Full-Stack projects accurately', () => {
     const filtered = filterProjectsByCategory(PROJECTS, 'Full-Stack');
     expect(filtered.map((p) => p.id)).toEqual([
+      'signal-intelligence',
+      'modelscope-intel',
       'docintel-rag',
       'meridian-bi-platform',
       'autogate',

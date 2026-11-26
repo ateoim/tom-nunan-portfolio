@@ -242,15 +242,19 @@ export function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                       </span>
                     </div>
                     <div className="flex items-center gap-3 font-mono text-[11px]">
-                      <a
-                        href={project.repoUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="hover:underline"
-                        style={{ color: 'var(--accent-cobalt)' }}
-                      >
-                        GitHub
-                      </a>
+                      {project.repoUrl ? (
+                        <a
+                          href={project.repoUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="hover:underline"
+                          style={{ color: 'var(--accent-cobalt)' }}
+                        >
+                          GitHub
+                        </a>
+                      ) : (
+                        <span style={{ color: 'var(--text-muted)' }}>Private Repo</span>
+                      )}
                       {project.demoUrl && (
                         <a
                           href={project.demoUrl}

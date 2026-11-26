@@ -20,8 +20,10 @@ export interface Project {
   summary: string;
   categories: ProjectCategory[];
   featured: boolean;
-  repoUrl: string;
+  repoUrl?: string;
+  isPrivateRepo?: boolean;
   demoUrl?: string;
+  screenshotUrl?: string;
   stack: string[];
   problemStatement: string;
   architectureOverview: ArchitectureLayer[];
@@ -121,6 +123,94 @@ export const PROFILE: ProfileInfo = {
 };
 
 export const PROJECTS: readonly Project[] = [
+  {
+    id: 'signal-intelligence',
+    name: 'Signal',
+    tagline: 'Personal Intelligence & Research-to-Execution Engine',
+    summary:
+      'Full-stack intelligence workspace backed by Node 24 SQLite + FTS5 that imports X/Twitter archives, browser bookmarks, and live URLs into a deduplicated knowledge graph, scores commercial opportunities, and generates executable engineering blueprints.',
+    categories: ['AI & RAG', 'Automation', 'Full-Stack'],
+    featured: true,
+    isPrivateRepo: true,
+    demoUrl: 'https://tom-signal-demo.netlify.app/',
+    screenshotUrl: './screenshots/signal.png',
+    stack: ['TypeScript', 'React 19', 'Express', 'Node 24 SQLite', 'FTS5', 'Netlify Blobs', 'Vitest'],
+    highlightMetric: 'Node 24 SQLite + FTS5 · Live Persistent Demo',
+    problemStatement:
+      'Developers and founders save hundreds of X threads, GitHub repositories, and articles that become a passive bookmark graveyard. Signal closes the loop from capture to deduplicated knowledge graph, transparent 4-factor opportunity scoring, and copy-ready coding specifications.',
+    architectureOverview: [
+      {
+        layer: 'Multi-Source Ingestion & SSRF Guard',
+        detail:
+          'Parses official X/Twitter archive exports, Netscape HTML browser bookmarks, Markdown documents, and SSRF-protected live GitHub/Reddit/web URLs with SHA-256 content deduplication.',
+      },
+      {
+        layer: 'Persistent SQLite + FTS5 & Blobs Durability',
+        detail:
+          'Runs Node 24 native node:sqlite with FTS5 full-text search and TF-IDF cosine hybrid ranking, hydrated and checkpointed to Netlify Blobs so saved records survive server restarts.',
+      },
+      {
+        layer: 'Knowledge Graph & Execution Studio',
+        detail:
+          'Computes weighted entity/semantic graph edges, 4-factor opportunity scores, personalised daily briefings, and structured markdown specifications for coding execution.',
+      },
+    ],
+    engineeringDecisions: [
+      'Used Node 24 built-in node:sqlite + FTS5 with Netlify Blobs snapshot checkpoints for durable full-stack persistence without paid database overhead.',
+      'Implemented strict SSRF validation blocking loopback, RFC1918, and link-local cloud metadata targets prior to server-side URL fetching.',
+      'Protected user workspaces with salted scrypt password hashing and HMAC-SHA256 HTTP-only session cookies alongside a 1-click synthetic demo workspace.',
+    ],
+    verifiedCapabilities: [
+      'Live X/Twitter archive & Netscape bookmark parsing with SHA-256 duplicate skipping',
+      'Hybrid SQLite FTS5 + TF-IDF cosine search and Cmd/Ctrl+K command palette',
+      'Interactive SVG knowledge graph and 4-factor opportunity scoring',
+      '19 automated Vitest unit and Express/SQLite integration tests plus verified restart persistence',
+    ],
+  },
+  {
+    id: 'modelscope-intel',
+    name: 'ModelScope',
+    tagline: 'AI Model Intelligence, Live Pricing & Local Hardware Decision Platform',
+    summary:
+      'Full-stack decision terminal comparing proprietary and open-weight LLMs across live OpenRouter/Hugging Face feeds, Pareto intelligence-per-dollar frontiers, GQA-aware VRAM/KV-cache quantisation physics, and monthly workload TCO.',
+    categories: ['AI & RAG', 'Data & BI', 'Full-Stack'],
+    featured: true,
+    isPrivateRepo: true,
+    demoUrl: 'https://tom-modelscope-demo.netlify.app/',
+    screenshotUrl: './screenshots/modelscope.png',
+    stack: ['TypeScript', 'React 19', 'Express', 'Node 24 SQLite', 'Recharts', 'OpenRouter API', 'Vitest'],
+    highlightMetric: 'Live OpenRouter Sync · GQA VRAM & Pareto Engine',
+    problemStatement:
+      'Choosing between frontier APIs and self-hosted open-weight models requires juggling fragmented pricing sheets, benchmark leaderboards, and rough VRAM guesses. ModelScope unifies live pricing, Pareto dominance analysis, hardware memory physics, and router config generation in one terminal.',
+    architectureOverview: [
+      {
+        layer: 'Zero-Key Live Data Aggregation',
+        detail:
+          'Syncs live model pricing and context windows from OpenRouter (/api/v1/models) and open-weight downloads from Hugging Face, tagging every metric with explicit data provenance.',
+      },
+      {
+        layer: 'VRAM Physics, Pareto & TCO Engine',
+        detail:
+          'Calculates weight memory across 9 quantisations (FP16 to IQ2_XXS), GQA-aware KV-cache scaling, bandwidth-derived tok/s, O(N log N) Pareto frontiers, and AUD/USD workload TCO.',
+      },
+      {
+        layer: 'Persistent Watchlists & Alert Rules',
+        detail:
+          'Persists user watchlists, hardware profiles, and price/score alert rules in Node 24 SQLite backed by Netlify Blobs snapshots.',
+      },
+    ],
+    engineeringDecisions: [
+      'Modelled Grouped-Query Attention (GQA) KV-cache memory explicitly so 70B+ Llama/Qwen/DeepSeek footprints are accurate rather than overestimated by naive MHA formulas.',
+      'Separated live API metrics, measured benchmarks, and calculated estimates with explicit UI provenance badges.',
+      'Generated copy-ready Ollama, vLLM, and LiteLLM router configurations directly from workload TCO selections.',
+    ],
+    verifiedCapabilities: [
+      'Live OpenRouter & Hugging Face catalog sync with USD/AUD pricing toggle',
+      'Interactive Pareto intelligence-vs-cost scatter plot and capability progression timeline',
+      'GQA-aware VRAM/KV-cache calculator across Apple Silicon and NVIDIA presets',
+      '10 automated Vitest physics and Express/SQLite integration tests plus verified restart persistence',
+    ],
+  },
   {
     id: 'docintel-rag',
     name: 'DocIntel',

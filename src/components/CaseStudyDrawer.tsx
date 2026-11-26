@@ -6,6 +6,7 @@ import {
   GitBranch,
   Github,
   Layers,
+  Lock,
   X,
 } from 'lucide-react';
 import type { Project } from '../data/portfolio';
@@ -108,19 +109,33 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
         <div className="space-y-8 px-6 py-6">
           {/* Action links */}
           <div className="flex flex-wrap items-center gap-3">
-            <a
-              href={project.repoUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-md px-3.5 py-2 text-xs font-semibold transition-opacity hover:opacity-90"
-              style={{
-                backgroundColor: 'var(--text-primary)',
-                color: 'var(--bg-canvas)',
-              }}
-            >
-              <Github className="h-3.5 w-3.5" />
-              <span>View Repository</span>
-            </a>
+            {project.repoUrl ? (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-md px-3.5 py-2 text-xs font-semibold transition-opacity hover:opacity-90"
+                style={{
+                  backgroundColor: 'var(--text-primary)',
+                  color: 'var(--bg-canvas)',
+                }}
+              >
+                <Github className="h-3.5 w-3.5" />
+                <span>View Repository</span>
+              </a>
+            ) : (
+              <span
+                className="inline-flex items-center gap-2 rounded-md border px-3.5 py-2 font-mono text-xs"
+                style={{
+                  borderColor: 'var(--border-hairline)',
+                  backgroundColor: 'var(--bg-surface)',
+                  color: 'var(--text-muted)',
+                }}
+              >
+                <Lock className="h-3.5 w-3.5" />
+                <span>Private Source Repository</span>
+              </span>
+            )}
 
             {project.demoUrl && (
               <a
@@ -139,6 +154,19 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
               </a>
             )}
           </div>
+
+          {project.screenshotUrl && (
+            <div
+              className="overflow-hidden rounded-lg border"
+              style={{ borderColor: 'var(--border-hairline)', backgroundColor: 'var(--bg-surface)' }}
+            >
+              <img
+                src={project.screenshotUrl}
+                alt={`${project.name} live interface screenshot`}
+                className="w-full object-cover object-top"
+              />
+            </div>
+          )}
 
           {/* Problem Statement */}
           <section>

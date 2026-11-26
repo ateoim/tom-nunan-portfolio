@@ -1,4 +1,4 @@
-import { ArrowUpRight, ExternalLink, Github, Layers } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, Github, Layers, Lock } from 'lucide-react';
 import type { Project } from '../data/portfolio';
 
 interface ProjectCardProps {
@@ -71,6 +71,22 @@ export function ProjectCard({ project, index, onInspect }: ProjectCardProps) {
           </p>
         </button>
 
+        {project.screenshotUrl && (
+          <button
+            type="button"
+            onClick={() => onInspect(project)}
+            className="mt-4 block w-full cursor-pointer overflow-hidden rounded-md border"
+            style={{ borderColor: 'var(--border-hairline)', backgroundColor: 'var(--bg-elevated)' }}
+          >
+            <img
+              src={project.screenshotUrl}
+              alt={`${project.name} application screenshot`}
+              loading="lazy"
+              className="aspect-[16/10] w-full object-cover object-top transition-transform duration-300 group-hover:scale-[1.02]"
+            />
+          </button>
+        )}
+
         <p
           className="mt-3 text-sm leading-relaxed"
           style={{ color: 'var(--text-muted)' }}
@@ -121,16 +137,26 @@ export function ProjectCard({ project, index, onInspect }: ProjectCardProps) {
         </button>
 
         <div className="flex items-center gap-3 text-xs font-medium">
-          <a
-            href={project.repoUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 transition-opacity hover:opacity-80"
-            style={{ color: 'var(--text-secondary)' }}
-          >
-            <Github className="h-3.5 w-3.5" />
-            <span>Source</span>
-          </a>
+          {project.repoUrl ? (
+            <a
+              href={project.repoUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 transition-opacity hover:opacity-80"
+              style={{ color: 'var(--text-secondary)' }}
+            >
+              <Github className="h-3.5 w-3.5" />
+              <span>Source</span>
+            </a>
+          ) : (
+            <span
+              className="inline-flex items-center gap-1 font-mono text-[11px]"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              <Lock className="h-3 w-3" />
+              <span>Private Repo</span>
+            </span>
+          )}
           {project.demoUrl && (
             <a
               href={project.demoUrl}
