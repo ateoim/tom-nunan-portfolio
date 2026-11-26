@@ -94,6 +94,19 @@ export function ProjectCard({ project, index, onInspect }: ProjectCardProps) {
           {project.summary}
         </p>
 
+        {project.demoTask && (
+          <div
+            className="mt-3 rounded-md border p-3 text-xs leading-relaxed"
+            style={{
+              borderColor: 'var(--border-hairline)',
+              backgroundColor: 'var(--bg-subtle)',
+              color: 'var(--text-secondary)',
+            }}
+          >
+            {project.demoTask}
+          </div>
+        )}
+
         <div
           className="mt-4 flex items-center gap-2 rounded border px-3 py-2 font-mono text-xs"
           style={{

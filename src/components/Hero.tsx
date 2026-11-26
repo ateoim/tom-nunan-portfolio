@@ -67,13 +67,28 @@ export function Hero({
 
         <div className="mt-8 flex flex-wrap items-center gap-3">
           <a
-            href={PROFILE.githubUrl}
+            href="https://tom-modelscope-demo.netlify.app/"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-opacity hover:opacity-90"
             style={{
-              backgroundColor: 'var(--text-primary)',
-              color: 'var(--bg-canvas)',
+              backgroundColor: 'var(--accent-emerald)',
+              color: '#06120E',
+            }}
+          >
+            <span>Try Lead Demo: 16 GB GPU Fit (ModelScope)</span>
+            <ArrowUpRight className="h-3.5 w-3.5" />
+          </a>
+
+          <a
+            href={PROFILE.githubUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-md border px-4 py-2.5 text-sm font-medium transition-colors"
+            style={{
+              borderColor: 'var(--border-strong)',
+              backgroundColor: 'var(--bg-surface)',
+              color: 'var(--text-primary)',
             }}
           >
             <Github className="h-4 w-4" />

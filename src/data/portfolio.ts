@@ -24,6 +24,10 @@ export interface Project {
   isPrivateRepo?: boolean;
   demoUrl?: string;
   screenshotUrl?: string;
+  demoTask?: string;
+  estimateAssumptions?: string[];
+  keyTradeOff?: string;
+  verifiedByTests?: string;
   stack: string[];
   problemStatement: string;
   architectureOverview: ArchitectureLayer[];
@@ -124,6 +128,63 @@ export const PROFILE: ProfileInfo = {
 
 export const PROJECTS: readonly Project[] = [
   {
+    id: 'modelscope-intel',
+    name: 'ModelScope',
+    tagline: 'AI Model Intelligence, Live Pricing & 16 GB GPU Hardware Fit Calculator',
+    summary:
+      'Full-stack decision terminal comparing proprietary and open-weight LLMs across live OpenRouter/Hugging Face feeds, Pareto intelligence-per-dollar frontiers, GQA-aware VRAM/KV-cache quantisation estimates, and monthly workload TCO.',
+    categories: ['AI & RAG', 'Data & BI', 'Full-Stack'],
+    featured: true,
+    isPrivateRepo: true,
+    demoUrl: 'https://tom-modelscope-demo.netlify.app/',
+    screenshotUrl: './screenshots/modelscope.png',
+    demoTask:
+      'First demo task: Open "Local VRAM Fit", select NVIDIA RTX 4060 Ti 16GB, choose Q4_K_M at 8K–16K context, and compare which open-weight models fit comfortably vs require CPU offload.',
+    estimateAssumptions: [
+      'Weights (GB) = totalParamsB × bytesPerParam (FP16 = 2.0, Q8_0 = 1.06, Q4_K_M = 0.58, IQ2_XXS = 0.31).',
+      'FP16 GQA KV-cache (GB) = 2 × layers × kvHeads × headDim × contextLength × batchSize × 2 bytes / 1e9.',
+      'Runtime & activation overhead = 12% of (Weights + KV) + 0.5 GB baseline.',
+      'Discrete 16 GB VRAM is 100% addressable (≤85% Fits Comfortably, ≤100% Tight Fit); Apple unified memory reserves 20% for macOS.',
+      'Decode speed (tok/s) is estimated from memory bandwidth divided by active quantised weights.',
+    ],
+    keyTradeOff:
+      'Decode throughput (tok/s) uses an analytical memory-bandwidth model rather than live GPU kernel profiling, trading hardware-specific benchmark variance for instant, zero-GPU browser estimates across 9 quantisations and 11 hardware presets.',
+    verifiedByTests:
+      '10/10 Vitest unit & Express/SQLite integration tests (tests/modelscope.test.ts) verified monotonic weight drops (FP16 > Q8_0 > Q4_K_M), linear GQA KV-cache scaling, exceeds-memory flagging for 72B FP16 on 16 GB VRAM, Pareto non-dominance filtering, prompt-cache TCO savings, and SQLite watchlist/alert CRUD; live Netlify deployment verified HTTP 200, 0px desktop/mobile overflow, and watchlist persistence surviving a fresh server restart via Netlify Blobs.',
+    stack: ['TypeScript', 'React 19', 'Express', 'Node 24 SQLite', 'Recharts', 'OpenRouter API', 'Vitest'],
+    highlightMetric: '16 GB GPU Fit · Live OpenRouter Sync · 10/10 Tests',
+    problemStatement:
+      'Teams evaluating local vs API LLMs juggle fragmented pricing sheets, benchmark tables, and rough VRAM guesses. ModelScope unifies live OpenRouter/Hugging Face feeds, Pareto cost-vs-intelligence dominance, and transparent GQA-aware hardware math in one tool.',
+    architectureOverview: [
+      {
+        layer: 'Zero-Key Live Data Aggregation',
+        detail:
+          'Syncs live model pricing and context windows from OpenRouter (/api/v1/models) and open-weight downloads from Hugging Face, tagging every metric with explicit data provenance (live-api, measured-benchmark, calculated-estimate).',
+      },
+      {
+        layer: 'VRAM Physics, Pareto & TCO Engine',
+        detail:
+          'Computes weight memory across 9 quantisations (FP16 to IQ2_XXS), GQA-aware KV-cache scaling, bandwidth-derived tok/s, O(N log N) Pareto frontiers, and AUD/USD workload TCO.',
+      },
+      {
+        layer: 'Persistent Watchlists & Alert Rules',
+        detail:
+          'Stores user watchlists, hardware profiles, and price/score alert rules in Node 24 SQLite backed by Netlify Blobs snapshots across restarts.',
+      },
+    ],
+    engineeringDecisions: [
+      'Modelled Grouped-Query Attention (GQA) KV-cache memory explicitly so 70B+ Llama/Qwen/DeepSeek footprints are not overestimated by naive MHA formulas.',
+      'Separated live API metrics, measured benchmarks, and calculated estimates with explicit UI provenance badges.',
+      'Generated copy-ready Ollama, vLLM, and LiteLLM router configurations directly from workload TCO selections.',
+    ],
+    verifiedCapabilities: [
+      '16 GB GPU hardware fit comparison across Q4_K_M / Q8_0 / FP16 with transparent memory breakdown',
+      'Live OpenRouter & Hugging Face catalog sync with USD/AUD pricing toggle',
+      'Interactive Pareto intelligence-vs-cost scatter plot and capability progression timeline',
+      '10 automated Vitest physics & API tests plus verified restart persistence on Netlify Server',
+    ],
+  },
+  {
     id: 'signal-intelligence',
     name: 'Signal',
     tagline: 'Personal Intelligence & Research-to-Execution Engine',
@@ -134,10 +195,16 @@ export const PROJECTS: readonly Project[] = [
     isPrivateRepo: true,
     demoUrl: 'https://tom-signal-demo.netlify.app/',
     screenshotUrl: './screenshots/signal.png',
+    demoTask:
+      'First demo task: Click "Launch Sample Walkthrough (No Sign-In)" to explore 10 pre-loaded discoveries, open the Knowledge Graph, and test SHA-256 deduplication with the built-in sample X archive in Import Studio.',
+    keyTradeOff:
+      'Uses Node 24 native node:sqlite + FTS5 checkpointed to Netlify Blobs instead of a managed Postgres + pgvector cluster, keeping hosting at $0/month with zero C++ build dependencies while scoping write concurrency to single-instance low-volume traffic.',
+    verifiedByTests:
+      '19/19 Vitest unit & Supertest/SQLite integration tests (tests/signal.test.ts) verified URL canonicalization, SHA-256 duplicate rejection (409 / duplicatesSkipped), SSRF blocking (localhost, 127.0.0.1, 169.254.169.254, RFC1918), official X window.YTD.like.part0 and Netscape HTML bookmark parsing, TF-IDF cosine ranking, deterministic blueprint generation, and scrypt cookie auth; live Netlify deployment verified HTTP 200, 0px desktop/mobile overflow, and saved item survival across a fresh server restart.',
     stack: ['TypeScript', 'React 19', 'Express', 'Node 24 SQLite', 'FTS5', 'Netlify Blobs', 'Vitest'],
-    highlightMetric: 'Node 24 SQLite + FTS5 · Live Persistent Demo',
+    highlightMetric: '1-Click Sample Demo · SQLite FTS5 · 19/19 Tests',
     problemStatement:
-      'Developers and founders save hundreds of X threads, GitHub repositories, and articles that become a passive bookmark graveyard. Signal closes the loop from capture to deduplicated knowledge graph, transparent 4-factor opportunity scoring, and copy-ready coding specifications.',
+      'Developers and founders save hundreds of X threads, GitHub repositories, and articles that turn into an unsearchable bookmark graveyard. Signal converts saved links into a deduplicated knowledge graph with transparent 4-factor opportunity scores and copy-ready build specifications.',
     architectureOverview: [
       {
         layer: 'Multi-Source Ingestion & SSRF Guard',
@@ -158,57 +225,13 @@ export const PROJECTS: readonly Project[] = [
     engineeringDecisions: [
       'Used Node 24 built-in node:sqlite + FTS5 with Netlify Blobs snapshot checkpoints for durable full-stack persistence without paid database overhead.',
       'Implemented strict SSRF validation blocking loopback, RFC1918, and link-local cloud metadata targets prior to server-side URL fetching.',
-      'Protected user workspaces with salted scrypt password hashing and HMAC-SHA256 HTTP-only session cookies alongside a 1-click synthetic demo workspace.',
+      'Protected user workspaces with salted scrypt password hashing and HMAC-SHA256 HTTP-only session cookies alongside a 1-click synthetic sample walkthrough.',
     ],
     verifiedCapabilities: [
+      'Zero-friction 1-click sample walkthrough with 10 pre-loaded discoveries (no sign-in or personal upload)',
       'Live X/Twitter archive & Netscape bookmark parsing with SHA-256 duplicate skipping',
       'Hybrid SQLite FTS5 + TF-IDF cosine search and Cmd/Ctrl+K command palette',
-      'Interactive SVG knowledge graph and 4-factor opportunity scoring',
-      '19 automated Vitest unit and Express/SQLite integration tests plus verified restart persistence',
-    ],
-  },
-  {
-    id: 'modelscope-intel',
-    name: 'ModelScope',
-    tagline: 'AI Model Intelligence, Live Pricing & Local Hardware Decision Platform',
-    summary:
-      'Full-stack decision terminal comparing proprietary and open-weight LLMs across live OpenRouter/Hugging Face feeds, Pareto intelligence-per-dollar frontiers, GQA-aware VRAM/KV-cache quantisation physics, and monthly workload TCO.',
-    categories: ['AI & RAG', 'Data & BI', 'Full-Stack'],
-    featured: true,
-    isPrivateRepo: true,
-    demoUrl: 'https://tom-modelscope-demo.netlify.app/',
-    screenshotUrl: './screenshots/modelscope.png',
-    stack: ['TypeScript', 'React 19', 'Express', 'Node 24 SQLite', 'Recharts', 'OpenRouter API', 'Vitest'],
-    highlightMetric: 'Live OpenRouter Sync · GQA VRAM & Pareto Engine',
-    problemStatement:
-      'Choosing between frontier APIs and self-hosted open-weight models requires juggling fragmented pricing sheets, benchmark leaderboards, and rough VRAM guesses. ModelScope unifies live pricing, Pareto dominance analysis, hardware memory physics, and router config generation in one terminal.',
-    architectureOverview: [
-      {
-        layer: 'Zero-Key Live Data Aggregation',
-        detail:
-          'Syncs live model pricing and context windows from OpenRouter (/api/v1/models) and open-weight downloads from Hugging Face, tagging every metric with explicit data provenance.',
-      },
-      {
-        layer: 'VRAM Physics, Pareto & TCO Engine',
-        detail:
-          'Calculates weight memory across 9 quantisations (FP16 to IQ2_XXS), GQA-aware KV-cache scaling, bandwidth-derived tok/s, O(N log N) Pareto frontiers, and AUD/USD workload TCO.',
-      },
-      {
-        layer: 'Persistent Watchlists & Alert Rules',
-        detail:
-          'Persists user watchlists, hardware profiles, and price/score alert rules in Node 24 SQLite backed by Netlify Blobs snapshots.',
-      },
-    ],
-    engineeringDecisions: [
-      'Modelled Grouped-Query Attention (GQA) KV-cache memory explicitly so 70B+ Llama/Qwen/DeepSeek footprints are accurate rather than overestimated by naive MHA formulas.',
-      'Separated live API metrics, measured benchmarks, and calculated estimates with explicit UI provenance badges.',
-      'Generated copy-ready Ollama, vLLM, and LiteLLM router configurations directly from workload TCO selections.',
-    ],
-    verifiedCapabilities: [
-      'Live OpenRouter & Hugging Face catalog sync with USD/AUD pricing toggle',
-      'Interactive Pareto intelligence-vs-cost scatter plot and capability progression timeline',
-      'GQA-aware VRAM/KV-cache calculator across Apple Silicon and NVIDIA presets',
-      '10 automated Vitest physics and Express/SQLite integration tests plus verified restart persistence',
+      '19 automated Vitest unit & Express/SQLite integration tests plus verified restart persistence',
     ],
   },
   {

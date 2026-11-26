@@ -18,8 +18,8 @@ describe('Portfolio catalog integrity', () => {
     const ids = PROJECTS.map((project) => project.id);
     expect(new Set(ids).size).toBe(PROJECTS.length);
     expect(ids).toEqual([
-      'signal-intelligence',
       'modelscope-intel',
+      'signal-intelligence',
       'docintel-rag',
       'au-tech-market-intel',
       'flowforge-ai-studio',
@@ -99,8 +99,8 @@ describe('Category filtering and lookup helpers', () => {
   it('filters AI & RAG projects accurately', () => {
     const filtered = filterProjectsByCategory(PROJECTS, 'AI & RAG');
     expect(filtered.map((p) => p.id)).toEqual([
-      'signal-intelligence',
       'modelscope-intel',
+      'signal-intelligence',
       'docintel-rag',
       'flowforge-ai-studio',
       'character-planner',
@@ -127,8 +127,8 @@ describe('Category filtering and lookup helpers', () => {
   it('filters Full-Stack projects accurately', () => {
     const filtered = filterProjectsByCategory(PROJECTS, 'Full-Stack');
     expect(filtered.map((p) => p.id)).toEqual([
-      'signal-intelligence',
       'modelscope-intel',
+      'signal-intelligence',
       'docintel-rag',
       'meridian-bi-platform',
       'autogate',

@@ -168,6 +168,80 @@ export function CaseStudyDrawer({ project, onClose }: CaseStudyDrawerProps) {
             </div>
           )}
 
+          {project.demoTask && (
+            <section
+              className="rounded-lg border p-4"
+              style={{
+                borderColor: 'var(--accent-emerald)',
+                backgroundColor: 'var(--accent-emerald-soft)',
+              }}
+            >
+              <h3
+                className="font-mono text-[11px] font-semibold uppercase tracking-wider"
+                style={{ color: 'var(--accent-emerald)' }}
+              >
+                Recommended First Demo Task
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>
+                {project.demoTask}
+              </p>
+            </section>
+          )}
+
+          {project.estimateAssumptions && project.estimateAssumptions.length > 0 && (
+            <section>
+              <h3
+                className="font-mono text-xs uppercase tracking-wider"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                Estimate Assumptions (Code-Grounded)
+              </h3>
+              <ul className="mt-2.5 space-y-2">
+                {project.estimateAssumptions.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded border px-3 py-2 font-mono text-xs leading-relaxed"
+                    style={{
+                      borderColor: 'var(--border-hairline)',
+                      backgroundColor: 'var(--bg-surface)',
+                      color: 'var(--text-secondary)',
+                    }}
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {project.keyTradeOff && (
+            <section>
+              <h3
+                className="font-mono text-xs uppercase tracking-wider"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                Key Technical Trade-Off
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                {project.keyTradeOff}
+              </p>
+            </section>
+          )}
+
+          {project.verifiedByTests && (
+            <section>
+              <h3
+                className="font-mono text-xs uppercase tracking-wider"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                What the Tests Actually Verified
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                {project.verifiedByTests}
+              </p>
+            </section>
+          )}
+
           {/* Problem Statement */}
           <section>
             <h3
